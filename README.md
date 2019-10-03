@@ -1,10 +1,14 @@
-# Concerto UI Library
-
-This library providers web UI components for models written in the [Concerto Modelling Language](https://github.com/hyperledger/composer-concerto).
-
-[![Coverage Status](https://coveralls.io/repos/github/accordproject/concerto-ui/badge.svg?branch=master)](https://coveralls.io/github/accordproject/concerto-ui?branch=master)
-
-[![Build Status](https://travis-ci.com/accordproject/concerto-uisvg?branch=master)](https://travis-ci.com/accordproject/concerto-ui)
+<h1 align="center">Concerto UI Library</h1>
+<p align="center">This library providers web UI components for models written in the <a href="https://github.com/hyperledger/composer-concerto">Concerto Modelling Language</a>.
+</p>    
+<p align="center">
+        <a href="https://coveralls.io/github/accordproject/concerto-ui?branch=master">
+            <img src="https://coveralls.io/repos/github/accordproject/concerto-ui/badge.svg?branch=master" alt="Coverage Status">
+        </a>
+        <a href="https://travis-ci.com/accordproject/concerto-ui">
+            <img src="https://travis-ci.com/accordproject/concerto-ui.svg" alt="Build Status">
+        </a>
+</p>
 
 The Concerto Modelling Language is used by both Hyperledger Composer and Accord Project Cicero as an object-oriented data description (schema) language, based on a textual domain-specific language. Both communities would benefit from improved tooling for the modelling language, including the ability to generate UML style diagrams and web-forms from class descriptions described using the Hyperledger Composer modelling language.
 
