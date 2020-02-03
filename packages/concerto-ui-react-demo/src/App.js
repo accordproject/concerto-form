@@ -38,7 +38,12 @@ import org.accordproject.money.MonetaryAmount from https://models.accordproject.
 import org.accordproject.time.Duration from https://models.accordproject.org/time@0.2.0.cto
 import org.accordproject.time.Period from https://models.accordproject.org/time@0.2.0.cto
   
+transaction MyTxn {
+  o String name optional
+}
+
 concept A {
+  o String aId
   o String[] strings 
   o B[] bs
   o MonetaryAmount[] monies
@@ -62,6 +67,8 @@ concept B {
         includeSampleData: 'sample', // or 'empty'
 
         updateExternalModels: true,
+        hideIdentifiers: true,
+        hideEmptyOptionals: true
       },
 
       error: null,

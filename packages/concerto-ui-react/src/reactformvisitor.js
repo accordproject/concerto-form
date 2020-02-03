@@ -28,6 +28,36 @@ import { Utilities, HTMLFormVisitor } from '@accordproject/concerto-ui-core';
  */
 class ReactFormVisitor extends HTMLFormVisitor {
 
+  constructor(){
+    super();
+    this.hiddenFields = [];
+  }
+
+  hideProperty(property, parameters){
+    const key = jsonpath.stringify(parameters.stack);
+    const value = jsonpath.value(parameters.json,key);
+    const normalizedKey = key.substring(2);
+
+    if (
+      parameters.hideEmptyOptionals 
+      && property.isOptional()
+      && (value === null || value === '')
+    ) {
+      parameters.stack.pop();
+      return true;
+    }
+
+    if (this.hiddenFields.find(
+        ({ className, fieldKey}) => 
+          fieldKey === normalizedKey 
+            && className === property.getParent().getFullyQualifiedName()
+      )) {
+      parameters.stack.pop();
+      return true;
+    }
+    return false;
+  }
+
     /**
      * Visitor design pattern
      * @param {ClassDeclaration} classDeclaration - the object being visited
@@ -37,6 +67,22 @@ class ReactFormVisitor extends HTMLFormVisitor {
      */
   visitClassDeclaration(classDeclaration, parameters) {
     let component = null;
+
+    if(parameters.hideIdentifiers){
+      let identifierClassDecl = null;
+      if (classDeclaration.idField) {
+        identifierClassDecl = classDeclaration;
+      } else if (classDeclaration.getSuperType()) { 
+        identifierClassDecl = parameters.modelManager.getType(classDeclaration.getSuperType());
+      }
+      if (identifierClassDecl){
+        this.hiddenFields.push({ 
+          className: identifierClassDecl.getFullyQualifiedName(),
+          fieldKey: classDeclaration.getIdentifierFieldName()
+        });
+      }
+    }
+
     if(!classDeclaration.isSystemType() &&
         !classDeclaration.isAbstract()) {
       const id = classDeclaration.getName().toLowerCase();
@@ -150,14 +196,13 @@ class ReactFormVisitor extends HTMLFormVisitor {
   visitField(field, parameters) {
     parameters.stack.push(field.getName());
 
+    if(this.hideProperty(field, parameters)){
+      return null;
+    };
+
     let key = jsonpath.stringify(parameters.stack);
     let value = jsonpath.value(parameters.json,key);
     let component = null;
-
-    if (parameters.hiddenFields && parameters.hiddenFields.includes(key)) {
-      parameters.stack.pop();
-      return null;
-    }
 
     const styles = parameters.customClasses;
     let style = styles.field;
@@ -320,6 +365,10 @@ class ReactFormVisitor extends HTMLFormVisitor {
   visitRelationship(relationship, parameters) {
     parameters.stack.push(relationship.getName());
 
+    if(this.hideProperty(relationship, parameters)){
+      return null;
+    };
+
     const styles = parameters.customClasses;
     let fieldStyle = styles.field;
     if(!relationship.isOptional()){
@@ -331,11 +380,6 @@ class ReactFormVisitor extends HTMLFormVisitor {
 
     const key = jsonpath.stringify(parameters.stack);
     let value = jsonpath.value(parameters.json,key);
-
-    if (parameters.hiddenFields && parameters.hiddenFields.includes(key)) {
-      parameters.stack.pop();
-      return null;
-    }
 
     let component;
     if(typeof value === 'object'){
@@ -357,8 +401,6 @@ class ReactFormVisitor extends HTMLFormVisitor {
           />
       </div>);
     }
-
-
 
     parameters.stack.pop();
     return component;

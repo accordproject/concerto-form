@@ -38,6 +38,33 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @memberof module:composer-common
  */
 class ReactFormVisitor extends _concertoUiCore.HTMLFormVisitor {
+  constructor() {
+    super();
+    this.hiddenFields = [];
+  }
+
+  hideProperty(property, parameters) {
+    const key = _jsonpath.default.stringify(parameters.stack);
+
+    const value = _jsonpath.default.value(parameters.json, key);
+
+    const normalizedKey = key.substring(2);
+
+    if (parameters.hideEmptyOptionals && property.isOptional() && (value === null || value === '')) {
+      parameters.stack.pop();
+      return true;
+    }
+
+    if (this.hiddenFields.find(({
+      className,
+      fieldKey
+    }) => fieldKey === normalizedKey && className === property.getParent().getFullyQualifiedName())) {
+      parameters.stack.pop();
+      return true;
+    }
+
+    return false;
+  }
   /**
    * Visitor design pattern
    * @param {ClassDeclaration} classDeclaration - the object being visited
@@ -45,8 +72,27 @@ class ReactFormVisitor extends _concertoUiCore.HTMLFormVisitor {
    * @return {Object} the result of visiting or null
    * @private
    */
+
+
   visitClassDeclaration(classDeclaration, parameters) {
     let component = null;
+
+    if (parameters.hideIdentifiers) {
+      let identifierClassDecl = null;
+
+      if (classDeclaration.idField) {
+        identifierClassDecl = classDeclaration;
+      } else if (classDeclaration.getSuperType()) {
+        identifierClassDecl = parameters.modelManager.getType(classDeclaration.getSuperType());
+      }
+
+      if (identifierClassDecl) {
+        this.hiddenFields.push({
+          className: identifierClassDecl.getFullyQualifiedName(),
+          fieldKey: classDeclaration.getIdentifierFieldName()
+        });
+      }
+    }
 
     if (!classDeclaration.isSystemType() && !classDeclaration.isAbstract()) {
       const id = classDeclaration.getName().toLowerCase();
@@ -154,17 +200,17 @@ class ReactFormVisitor extends _concertoUiCore.HTMLFormVisitor {
   visitField(field, parameters) {
     parameters.stack.push(field.getName());
 
+    if (this.hideProperty(field, parameters)) {
+      return null;
+    }
+
+    ;
+
     let key = _jsonpath.default.stringify(parameters.stack);
 
     let value = _jsonpath.default.value(parameters.json, key);
 
     let component = null;
-
-    if (parameters.hiddenFields && parameters.hiddenFields.includes(key)) {
-      parameters.stack.pop();
-      return null;
-    }
-
     const styles = parameters.customClasses;
     let style = styles.field;
 
@@ -356,6 +402,12 @@ class ReactFormVisitor extends _concertoUiCore.HTMLFormVisitor {
 
   visitRelationship(relationship, parameters) {
     parameters.stack.push(relationship.getName());
+
+    if (this.hideProperty(relationship, parameters)) {
+      return null;
+    }
+
+    ;
     const styles = parameters.customClasses;
     let fieldStyle = styles.field;
 
@@ -370,11 +422,6 @@ class ReactFormVisitor extends _concertoUiCore.HTMLFormVisitor {
     const key = _jsonpath.default.stringify(parameters.stack);
 
     let value = _jsonpath.default.value(parameters.json, key);
-
-    if (parameters.hiddenFields && parameters.hiddenFields.includes(key)) {
-      parameters.stack.pop();
-      return null;
-    }
 
     let component;
 
