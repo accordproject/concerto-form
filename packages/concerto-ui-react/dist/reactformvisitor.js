@@ -159,6 +159,12 @@ class ReactFormVisitor extends _concertoUiCore.HTMLFormVisitor {
     let value = _jsonpath.default.value(parameters.json, key);
 
     let component = null;
+
+    if (parameters.hiddenFields && parameters.hiddenFields.includes(key)) {
+      parameters.stack.pop();
+      return null;
+    }
+
     const styles = parameters.customClasses;
     let style = styles.field;
 
@@ -364,6 +370,11 @@ class ReactFormVisitor extends _concertoUiCore.HTMLFormVisitor {
     const key = _jsonpath.default.stringify(parameters.stack);
 
     let value = _jsonpath.default.value(parameters.json, key);
+
+    if (parameters.hiddenFields && parameters.hiddenFields.includes(key)) {
+      parameters.stack.pop();
+      return null;
+    }
 
     let component;
 

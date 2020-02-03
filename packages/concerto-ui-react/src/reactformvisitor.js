@@ -154,6 +154,11 @@ class ReactFormVisitor extends HTMLFormVisitor {
     let value = jsonpath.value(parameters.json,key);
     let component = null;
 
+    if (parameters.hiddenFields && parameters.hiddenFields.includes(key)) {
+      parameters.stack.pop();
+      return null;
+    }
+
     const styles = parameters.customClasses;
     let style = styles.field;
     if(!field.isOptional()){
@@ -326,6 +331,11 @@ class ReactFormVisitor extends HTMLFormVisitor {
 
     const key = jsonpath.stringify(parameters.stack);
     let value = jsonpath.value(parameters.json,key);
+
+    if (parameters.hiddenFields && parameters.hiddenFields.includes(key)) {
+      parameters.stack.pop();
+      return null;
+    }
 
     let component;
     if(typeof value === 'object'){
