@@ -46,7 +46,17 @@ class ReactFormVisitor extends _concertoUiCore.HTMLFormVisitor {
    * @private
    */
   hideProperty(property, parameters) {
-    if (parameters.hiddenFields.find(fqn => fqn === property.getFullyQualifiedName())) {
+    if (parameters.hiddenFields.find(f => {
+      if (typeof f === 'function') {
+        return f(property);
+      }
+
+      if (typeof f === 'string') {
+        return f === property.getFullyQualifiedName();
+      }
+
+      return false;
+    })) {
       parameters.stack.pop();
       return true;
     }

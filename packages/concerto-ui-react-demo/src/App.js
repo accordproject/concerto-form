@@ -1,3 +1,4 @@
+/* eslint-disable require-jsdoc */
 /*
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,30 +33,46 @@ class App extends Component {
       types: [],
 
       // Source model file text
-      model: `namespace concerto
+      model: `namespace io.clause.demo.fragileGoods
 
-import org.accordproject.money.MonetaryAmount from https://models.accordproject.org/money@0.2.0.cto
-import org.accordproject.time.Duration from https://models.accordproject.org/time@0.2.0.cto
-import org.accordproject.time.Period from https://models.accordproject.org/time@0.2.0.cto
-  
-transaction MyTxn {
-  o String name optional
-}
-
-concept A {
-  o String aId
-  o String[] strings 
-  o B[] bs
-  o MonetaryAmount[] monies
-  o MonetaryAmount money
-  o Duration duration
-  o Period period
-}
-
-concept B {
-  o String string
-  o Double number
-}`,
+      import org.accordproject.cicero.contract.* from https://models.accordproject.org/cicero/contract.cto
+      import org.accordproject.cicero.runtime.* from https://models.accordproject.org/cicero/runtime.cto
+      import org.accordproject.time.Duration from https://models.accordproject.org/v2.0/time.cto
+      import org.accordproject.money.MonetaryAmount from https://models.accordproject.org/money.cto
+      
+      /**
+       * The status of a shipment
+       */
+      enum ShipmentStatus {
+        o CREATED
+        o IN_TRANSIT
+        o ARRIVED
+      }
+      
+      transaction DeliveryUpdate extends Request {
+        o DateTime startTime
+        o DateTime finishTime optional
+        o ShipmentStatus status
+        o Double[] accelerometerReadings
+      }
+      
+      transaction PayOut extends Response {
+        o MonetaryAmount amount
+      }
+      
+      /**
+       * The template model
+       */
+      asset FragileGoodsClause extends AccordContract {
+        o AccordParty buyer
+        o AccordParty seller
+        o MonetaryAmount deliveryPrice
+        o Double accelerationMin
+        o Double accelerationMax
+        o MonetaryAmount accelerationBreachPenalty
+        o Duration deliveryLimitDuration
+        o MonetaryAmount lateDeliveryPenalty
+      }`,
 
       // Rendering options
       options: {
@@ -73,7 +90,8 @@ concept B {
           'org.accordproject.cicero.contract.AccordContract.contractId',
           'org.accordproject.cicero.contract.AccordClause.clauseId',
           'org.accordproject.cicero.contract.AccordContractState.stateId',
-        ]
+          property => property.getName() === 'parties'
+        ],
       },
 
       error: null,

@@ -37,7 +37,15 @@ class ReactFormVisitor extends HTMLFormVisitor {
      */
   hideProperty(property, parameters){
     if (parameters.hiddenFields.find(
-        fqn => fqn === property.getFullyQualifiedName()
+        f => {
+          if (typeof f === 'function'){
+            return f(property);
+          }
+          if (typeof f === 'string'){
+            return f === property.getFullyQualifiedName()
+          }
+          return false;
+        }
       )) {
       parameters.stack.pop();
       return true;
