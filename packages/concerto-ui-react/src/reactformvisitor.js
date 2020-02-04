@@ -328,13 +328,48 @@ class ReactFormVisitor extends HTMLFormVisitor {
     let value = jsonpath.value(parameters.json,key);
 
     let component;
-    if(typeof value === 'object'){
-      let type = parameters.modelManager.getType(value.$class);
-      type = this.findConcreteSubclass(type);
-      component = (<div className={fieldStyle} key={relationship.getName()}>
-                <label>{Utilities.normalizeLabel(relationship.getName())}</label>
-                {type.accept(this, parameters)}
-            </div>);
+    if (relationship.isArray()){
+      let arrayField = (field, parameters) => {
+        let key = jsonpath.stringify(parameters.stack);
+        let value = jsonpath.value(parameters.json,key);
+        return (<input type='text'
+          className={styles.input}
+          value={value}
+          onChange={(e)=>parameters.onFieldValueChange(e, key)}
+          key={key} />);
+      };
+      component = (<div className={fieldStyle} key={relationship.getName()+'_wrapper'}>
+      { !parameters.skipLabel && <label>{Utilities.normalizeLabel(relationship.getName())}</label> }
+        {value.map((element, index) => {
+          parameters.stack.push(index);
+          const arrayComponent = (
+            <div className={styles.arrayElement + ' grid'} key={relationship.getName()+'_wrapper['+index+']'}>
+                <div >
+                  {arrayField(relationship, parameters)}
+                </div>
+                <div>                          
+                  <button
+                    className={styles.button + ' negative icon'}
+                    onClick={(e)=>{parameters.removeElement(e, key, index);e.preventDefault();}}>
+                      <i className="times icon"></i>
+                  </button>
+                </div>
+            </div>
+          );
+          parameters.stack.pop();
+          return arrayComponent;
+        })}
+        <div className={styles.arrayElement + ' grid'}>
+          <div/>
+          <div>                          
+            <button
+              className={styles.button + ' positive icon'}
+              onClick={(e)=>{parameters.addElement(e, key, 'resource1');e.preventDefault();}}>
+                <i className="plus icon"></i>
+            </button>
+          </div>
+        </div>
+      </div>);
     } else {
       component = (<div className={fieldStyle} key={relationship.getName()}>
       <label>{Utilities.normalizeLabel(relationship.getName())}</label>
@@ -347,8 +382,6 @@ class ReactFormVisitor extends HTMLFormVisitor {
           />
       </div>);
     }
-
-
 
     parameters.stack.pop();
     return component;

@@ -198,6 +198,7 @@ class ConcertoForm extends _react.Component {
       try {
         return this.generator.generateHTML(this.props.type, this.state.value);
       } catch (err) {
+        console.error(err);
         return null;
       }
     }

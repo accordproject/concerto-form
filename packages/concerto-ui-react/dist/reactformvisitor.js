@@ -367,13 +367,53 @@ class ReactFormVisitor extends _concertoUiCore.HTMLFormVisitor {
 
     let component;
 
-    if (typeof value === 'object') {
-      let type = parameters.modelManager.getType(value.$class);
-      type = this.findConcreteSubclass(type);
+    if (relationship.isArray()) {
+      let arrayField = (field, parameters) => {
+        let key = _jsonpath.default.stringify(parameters.stack);
+
+        let value = _jsonpath.default.value(parameters.json, key);
+
+        return _react.default.createElement("input", {
+          type: "text",
+          className: styles.input,
+          value: value,
+          onChange: e => parameters.onFieldValueChange(e, key),
+          key: key
+        });
+      };
+
       component = _react.default.createElement("div", {
         className: fieldStyle,
-        key: relationship.getName()
-      }, _react.default.createElement("label", null, _concertoUiCore.Utilities.normalizeLabel(relationship.getName())), type.accept(this, parameters));
+        key: relationship.getName() + '_wrapper'
+      }, !parameters.skipLabel && _react.default.createElement("label", null, _concertoUiCore.Utilities.normalizeLabel(relationship.getName())), value.map((element, index) => {
+        parameters.stack.push(index);
+
+        const arrayComponent = _react.default.createElement("div", {
+          className: styles.arrayElement + ' grid',
+          key: relationship.getName() + '_wrapper[' + index + ']'
+        }, _react.default.createElement("div", null, arrayField(relationship, parameters)), _react.default.createElement("div", null, _react.default.createElement("button", {
+          className: styles.button + ' negative icon',
+          onClick: e => {
+            parameters.removeElement(e, key, index);
+            e.preventDefault();
+          }
+        }, _react.default.createElement("i", {
+          className: "times icon"
+        }))));
+
+        parameters.stack.pop();
+        return arrayComponent;
+      }), _react.default.createElement("div", {
+        className: styles.arrayElement + ' grid'
+      }, _react.default.createElement("div", null), _react.default.createElement("div", null, _react.default.createElement("button", {
+        className: styles.button + ' positive icon',
+        onClick: e => {
+          parameters.addElement(e, key, 'resource1');
+          e.preventDefault();
+        }
+      }, _react.default.createElement("i", {
+        className: "plus icon"
+      })))));
     } else {
       component = _react.default.createElement("div", {
         className: fieldStyle,
