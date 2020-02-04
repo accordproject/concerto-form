@@ -68,7 +68,6 @@ concept B {
 
         updateExternalModels: true,
         hideIdentifiers: true,
-        hideEmptyOptionals: true
       },
 
       error: null,

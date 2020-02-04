@@ -28,29 +28,16 @@ import { Utilities, HTMLFormVisitor } from '@accordproject/concerto-ui-core';
  */
 class ReactFormVisitor extends HTMLFormVisitor {
 
-  constructor(){
-    super();
-    this.hiddenFields = [];
-  }
-
+    /**
+     * Helper function to determine whether to hide a property from the rendering
+     * @param {Property} property - the object being visited, either a field or a resource
+     * @param {Object} parameters  - the parameter
+     * @return {boolean} - true if the property should be hidden, false otherwise
+     * @private
+     */
   hideProperty(property, parameters){
-    const key = jsonpath.stringify(parameters.stack);
-    const value = jsonpath.value(parameters.json,key);
-    const normalizedKey = key.substring(2);
-
-    if (
-      parameters.hideEmptyOptionals 
-      && property.isOptional()
-      && (value === null || value === '')
-    ) {
-      parameters.stack.pop();
-      return true;
-    }
-
-    if (this.hiddenFields.find(
-        ({ className, fieldKey}) => 
-          fieldKey === normalizedKey 
-            && className === property.getParent().getFullyQualifiedName()
+    if (parameters.hiddenFields.find(
+        ({ fieldFqn }) => fieldFqn === property.getFullyQualifiedName()
       )) {
       parameters.stack.pop();
       return true;
@@ -69,16 +56,15 @@ class ReactFormVisitor extends HTMLFormVisitor {
     let component = null;
 
     if(parameters.hideIdentifiers){
-      let identifierClassDecl = null;
-      if (classDeclaration.idField) {
-        identifierClassDecl = classDeclaration;
-      } else if (classDeclaration.getSuperType()) { 
-        identifierClassDecl = parameters.modelManager.getType(classDeclaration.getSuperType());
+      if (!parameters.hiddenFields){
+        parameters.hiddenFields = [];
       }
-      if (identifierClassDecl){
-        this.hiddenFields.push({ 
-          className: identifierClassDecl.getFullyQualifiedName(),
-          fieldKey: classDeclaration.getIdentifierFieldName()
+
+      const idFieldName = classDeclaration.getIdentifierFieldName()
+      if (idFieldName){
+        const idField = classDeclaration.getProperty(idFieldName)
+        parameters.hiddenFields.push({ 
+          fieldFqn: idField.getFullyQualifiedName()
         });
       }
     }
