@@ -67,7 +67,13 @@ concept B {
         includeSampleData: 'sample', // or 'empty'
 
         updateExternalModels: true,
-        hideIdentifiers: true,
+        // hideIdentifiers: true,
+        hiddenFields: [
+          'org.accordproject.base.Transaction.transactionId',
+          'org.accordproject.cicero.contract.AccordContract.contractId',
+          'org.accordproject.cicero.contract.AccordClause.clauseId',
+          'org.accordproject.cicero.contract.AccordContractState.stateId',
+        ]
       },
 
       error: null,

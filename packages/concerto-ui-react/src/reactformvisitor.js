@@ -37,7 +37,7 @@ class ReactFormVisitor extends HTMLFormVisitor {
      */
   hideProperty(property, parameters){
     if (parameters.hiddenFields.find(
-        ({ fieldFqn }) => fieldFqn === property.getFullyQualifiedName()
+        fqn => fqn === property.getFullyQualifiedName()
       )) {
       parameters.stack.pop();
       return true;
@@ -63,9 +63,7 @@ class ReactFormVisitor extends HTMLFormVisitor {
       const idFieldName = classDeclaration.getIdentifierFieldName()
       if (idFieldName){
         const idField = classDeclaration.getProperty(idFieldName)
-        parameters.hiddenFields.push({ 
-          fieldFqn: idField.getFullyQualifiedName()
-        });
+        parameters.hiddenFields.push(idField.getFullyQualifiedName());
       }
     }
 
