@@ -12,7 +12,7 @@ The Concerto Modeling Language is an object-oriented data description (schema) l
 Packages: 
 - `concerto-ui-core`, includes the base visitor class and utility functions
 - `concerto-ui-react`, extends the base visitor to provide a ReactJS form
-- `concerto-ui-demo`, uses the react visitor and applies SemanticUI styling
+- `concerto-ui-react-demo`, demo for Concerto UI
 
 ### More Information
 
