@@ -14,8 +14,13 @@ limitations under the License.
 
 
 .App {
+  margin: 20px;
 }
 
+/* .ui.form textarea:not([rows]) {
+  height: 100%;
+  max-height: 100%;
+} */
 .App-logo {
   animation: App-logo-spin infinite 20s linear;
   height: 80px;
@@ -41,6 +46,3 @@ limitations under the License.
   to { transform: rotate(360deg); }
 }
 
-.Text-area {
-  height: 400px;
-}
