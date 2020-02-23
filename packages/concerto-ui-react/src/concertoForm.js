@@ -119,7 +119,7 @@ class ConcertoForm extends Component {
   }
 
   static getDerivedStateFromProps(props, state){
-    return { value: props.json, warning: null};
+    return { value: { ...props.json }, warning: null};
   }
 
   removeElement(e, key, index){
