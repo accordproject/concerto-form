@@ -2,6 +2,9 @@
 
 This library providers web UI components for models written in the [Concerto Modeling Language](https://github.com/accordproject/concerto).
 
+### [Demo](https://concerto-ui.netlify.com/)
+
+[![Netlify Status](https://api.netlify.com/api/v1/badges/97685e21-f9d1-45ba-857f-0ab0a4f9f3fd/deploy-status)](https://app.netlify.com/sites/concerto-ui/deploys)
 [![Coverage Status](https://coveralls.io/repos/github/accordproject/concerto-ui/badge.svg?branch=master)](https://coveralls.io/github/accordproject/concerto-ui?branch=master) [![GitHub license](https://img.shields.io/github/license/accordproject/concerto-ui)](https://github.com/accordproject/concerto-ui/blob/master/LICENSE) [![join slack](https://img.shields.io/badge/Accord%20Project-Join%20Slack-blue)](https://accord-project-slack-signup.herokuapp.com/) [![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg)](https://lerna.js.org/)
 [![Build Status](https://travis-ci.org/accordproject/concerto-ui.svg?branch=master)](https://travis-ci.org/accordproject/concerto-ui)
 
