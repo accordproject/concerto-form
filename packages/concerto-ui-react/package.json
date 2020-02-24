@@ -4,8 +4,10 @@
   "dependencies": {
     "@accordproject/concerto-ui-core": "0.83.0",
     "@babel/runtime": "^7.8.4",
-    "jsonpath": "1.0.1",
-    "lodash.isequal": "^4.5.0"
+    "lodash.get": "^4.4.2",
+    "lodash.isequal": "^4.5.0",
+    "lodash.set": "^4.3.2",
+    "lodash.topath": "^4.5.2"
   },
   "scripts": {
     "build": "rm -rf dist && NODE_ENV=production babel src --out-dir dist --copy-files --ignore '**/*.spec.js,**/*.test.js,samples,__snapshots__,**/*.stories.js'",
@@ -20,13 +22,15 @@
   },
   "peerDependencies": {
     "react": "^16.11.0",
-    "react-dom": "^16.11.0"
+    "react-dom": "^16.11.0",
+    "semantic-ui-css": "^2.4.1",
+    "semantic-ui-react": "^0.87.2"
   },
   "devDependencies": {
     "@babel/cli": "^7.7.0",
     "@babel/core": "^7.7.0",
     "@babel/plugin-transform-runtime": "^7.8.3",
-    "@babel/preset-env": "^7.7.1",
+    "@babel/preset-env": "^7.8.4",
     "@babel/preset-react": "^7.7.0",
     "async-wait-until": "1.2.4",
     "babel-jest": "^24.8.0",

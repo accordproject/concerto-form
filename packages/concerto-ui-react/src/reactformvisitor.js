@@ -13,7 +13,8 @@
  */
 
 import React from 'react';
-import jsonpath from 'jsonpath';
+import get from 'lodash.get';
+import toPath from 'lodash.topath';
 import { Utilities, HTMLFormVisitor } from '@accordproject/concerto-ui-core';
 
 /**
@@ -174,8 +175,8 @@ class ReactFormVisitor extends HTMLFormVisitor {
    */
   visitEnumDeclaration(enumDeclaration, parameters) {
     let component = null;
-    const key = jsonpath.stringify(parameters.stack);
-    const value = jsonpath.value(parameters.json,key);
+    const key = toPath(parameters.stack);
+    const value = get(parameters.json,key);
 
     const styles = parameters.customClasses;
     const id = enumDeclaration.getName().toLowerCase();
@@ -208,8 +209,8 @@ class ReactFormVisitor extends HTMLFormVisitor {
       return null;
     };
 
-    let key = jsonpath.stringify(parameters.stack);
-    let value = jsonpath.value(parameters.json,key);
+    let key = toPath(parameters.stack);
+    let value = get(parameters.json,key);
     let component = null;
 
     const styles = parameters.customClasses;
@@ -222,8 +223,8 @@ class ReactFormVisitor extends HTMLFormVisitor {
     }
     if (field.isArray()) {
       let arrayField = (field, parameters) => {
-        let key = jsonpath.stringify(parameters.stack);
-        let value = jsonpath.value(parameters.json,key);
+        let key = toPath(parameters.stack);
+        let value = get(parameters.json,key);
         if (field.isPrimitive()){
           if(field.getType() === 'Boolean'){
             return(<div className={styles} key={field.getName()+'_wrapper'}>
@@ -386,15 +387,15 @@ class ReactFormVisitor extends HTMLFormVisitor {
       fieldStyle += ' readonly transparent';
     }
 
-    const key = jsonpath.stringify(parameters.stack);
-    let value = jsonpath.value(parameters.json,key);
+    const key = toPath(parameters.stack);
+    let value = get(parameters.json,key);
 
     let component;
     if (relationship.isArray()){
       if(!value){ return null; }
       let arrayField = (field, parameters) => {
-        let key = jsonpath.stringify(parameters.stack);
-        let value = jsonpath.value(parameters.json,key);
+        let key = toPath(parameters.stack);
+        let value = get(parameters.json,key);
         return (<input type='text'
           className={styles.input}
           value={value}
