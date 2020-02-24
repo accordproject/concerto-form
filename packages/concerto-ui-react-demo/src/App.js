@@ -19,6 +19,7 @@ import { ConcertoForm } from '@accordproject/concerto-ui-react';
 import { Grid, Segment, Form, Dropdown } from 'semantic-ui-react';
 import ConcertoEditor from './ConcertoEditor';
 import MonacoEditor from 'react-monaco-editor';
+import MyReactFormVisitor from './MyReactFormVisitor';
 
 export default function App(props) {
 
@@ -82,6 +83,9 @@ asset FragileGoodsClause extends AccordContract {
       'org.accordproject.cicero.contract.AccordContractState.stateId',
       // property => property.getName() === 'parties'
     ],
+
+    // Custom visitor, use this pattern to override the form generation behavior
+    visitor: new MyReactFormVisitor()
   };
 
   const [json, setJson] = useState(null);

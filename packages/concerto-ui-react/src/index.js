@@ -12,4 +12,5 @@
  * limitations under the License.
  */
 import ConcertoFormWrapper from './concertoFormWrapper';
-export { ConcertoFormWrapper as ConcertoForm }
+import ReactFormVisitor from './reactformvisitor';
+export { ConcertoFormWrapper as ConcertoForm, ReactFormVisitor }
