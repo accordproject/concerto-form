@@ -55,6 +55,26 @@ class ReactFormVisitor extends HTMLFormVisitor {
   }
 
   /**
+   * Helper function to cast the string value of a change event to it's true type
+   * @param {Event} e - the event associated with the field change
+   * @return {Event} e - the modified event
+   * @private
+   */
+  castChangeToPrimitiveType(e, key, type, parameters) {
+    let change = e.target.value;
+    switch(type) {
+      case 'Boolean':
+        change = Boolean(e.target.value);
+      case 'Double':
+      case 'Long':
+      case 'Integer':
+        change = Number(e.target.value);
+
+      }
+      return parameters.onFieldValueChange({ ...e, target: { ...e.target, value: change }}, key)
+  }
+
+  /**
    * Visitor design pattern
    * @param {ClassDeclaration} classDeclaration - the object being visited
    * @param {Object} parameters  - the parameter
@@ -250,7 +270,7 @@ class ReactFormVisitor extends HTMLFormVisitor {
                         <input type={this.toFieldType(field.getType())}
                             className={styles.input}
                             value={value}
-                            onChange={(e)=>parameters.onFieldValueChange(e, key)}
+                            onChange={e => this.castChangeToPrimitiveType(e, key, field.getType(), parameters)}
                             key={key} />
                     </div>);
           }
@@ -336,7 +356,7 @@ class ReactFormVisitor extends HTMLFormVisitor {
                   <input type={this.toFieldType(field.getType())}
                       className={styles.input}
                       value={value}
-                      onChange={(e)=>parameters.onFieldValueChange(e, key)}
+                      onChange={e => this.castChangeToPrimitiveType(e, key, field.getType(), parameters)}
                       key={key} />
               </div>);
       }
