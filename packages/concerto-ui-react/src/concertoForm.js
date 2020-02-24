@@ -18,6 +18,7 @@ import './concertoForm.css';
 import PropTypes from 'prop-types';
 import jsonpath from 'jsonpath';
 import { FormGenerator } from '@accordproject/concerto-ui-core';
+import { Form, Dimmer, Loader, Message } from 'semantic-ui-react';
 import isEqual from 'lodash.isequal';
 
 /**
@@ -34,10 +35,11 @@ class ConcertoForm extends Component {
       // This is needed so that we can use the jsonpath library to change object properties by key
       // using the jsonpath module, without modifying the props object
       value: null,
+      loading: true,
     };
 
     // Default values which can be overridden by parent components
-    this.options = Object.assign({
+    this.options = {
       includeOptionalFields: true,
       includeSampleData: 'sample',
       disabled: props.readOnly,
@@ -63,7 +65,8 @@ class ConcertoForm extends Component {
       removeElement: (e, key, index) => {
         this.removeElement(e, key, index);
       },
-    }, props.options);
+      ...props.options
+    };
 
     this.generator = new FormGenerator(this.options);
   }
@@ -104,7 +107,7 @@ class ConcertoForm extends Component {
       if(!types.map(t => t.getFullyQualifiedName()).includes(this.props.type)){
         fqn = types[0].getFullyQualifiedName();
         json = this.generateJSON(fqn);
-        return { types, json, fqn };
+        return { types, json };
       }
       json = this.generateJSON(this.props.type);  
     }
@@ -114,12 +117,23 @@ class ConcertoForm extends Component {
     return { types, json };
   }
 
-  _loadAsyncData() {
-    return this.loadModelFiles(this.props.models, 'text');
+  async _loadAsyncData() {
+    this.setState({ loading: true });
+    const modelProps = await this.loadModelFiles(this.props.models, 'text');
+    this.setState({ loading: false });
+    return modelProps
   }
 
-  static getDerivedStateFromProps(props, state){
-    return { value: props.json, warning: null};
+  static getDerivedStateFromProps(props){
+    let shadowValue;
+    if(typeof props.json === 'string'){
+      try{
+        shadowValue = (JSON.parse(props.json));
+      } catch {}
+    } else if(typeof props.json === 'object'){
+      shadowValue = ({ ...props.json });
+    }
+    return { value: shadowValue };
   }
 
   removeElement(e, key, index){
@@ -163,31 +177,44 @@ class ConcertoForm extends Component {
   }
 
   renderForm(){
+    if (this.state.loading){
+      return <Dimmer active inverted>
+        <Loader inverted>Loading</Loader>
+      </Dimmer>;
+    }
+
     if (this.props.type && this.state.value) {
       try {
         return this.generator.generateHTML(this.props.type, this.state.value);
       }
       catch(err) {
         console.error(err);
-        return null;
+        return <Message warning>
+          <Message.Header>An error occured while generating this form</Message.Header>
+          <pre>{err.message}</pre>
+        </Message>;;
       }
     }
-    return null;
+    return <Message warning>
+      <Message.Header>Invalid JSON instance provided</Message.Header>
+      <p>The JSON value does not match the model type associated with this form.</p>
+    </Message>;
   }
 
   render() {
-    return (
-        <form className="ui form" style={this.props.style}>
-          {this.renderForm()}
-        </form>
-    );
+    return <Form style={{ minHeight: '100px', ...this.props.style }}>
+      {this.renderForm()}
+    </Form>;
   }
 }
 
 ConcertoForm.propTypes = {
   models: PropTypes.arrayOf(PropTypes.string),
   type: PropTypes.string,
-  json: PropTypes.object,
+  json: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.string,
+  ]),
   onModelChange: PropTypes.func.isRequired,
   onValueChange: PropTypes.func.isRequired,
   options: PropTypes.object,

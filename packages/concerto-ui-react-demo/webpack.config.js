@@ -15,6 +15,7 @@
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
 const path = require('path');
 
 module.exports = {
@@ -90,6 +91,9 @@ module.exports = {
       title: 'YES',
     }),
     new CleanWebpackPlugin(),
+    new MonacoWebpackPlugin({
+      languages: ['json']
+    })
   ],
   node: {
     fs: 'empty',

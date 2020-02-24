@@ -28,13 +28,13 @@ import { Utilities, HTMLFormVisitor } from '@accordproject/concerto-ui-core';
  */
 class ReactFormVisitor extends HTMLFormVisitor {
 
-    /**
-     * Helper function to determine whether to hide a property from the rendering
-     * @param {Property} property - the object being visited, either a field or a resource
-     * @param {Object} parameters  - the parameter
-     * @return {boolean} - true if the property should be hidden, false otherwise
-     * @private
-     */
+  /**
+   * Helper function to determine whether to hide a property from the rendering
+   * @param {Property} property - the object being visited, either a field or a resource
+   * @param {Object} parameters  - the parameter
+   * @return {boolean} - true if the property should be hidden, false otherwise
+   * @private
+   */
   hideProperty(property, parameters){
     if (parameters.hiddenFields && parameters.hiddenFields.find(
         f => {
@@ -53,13 +53,13 @@ class ReactFormVisitor extends HTMLFormVisitor {
     return false;
   }
 
-    /**
-     * Visitor design pattern
-     * @param {ClassDeclaration} classDeclaration - the object being visited
-     * @param {Object} parameters  - the parameter
-     * @return {Object} the result of visiting or null
-     * @private
-     */
+  /**
+   * Visitor design pattern
+   * @param {ClassDeclaration} classDeclaration - the object being visited
+   * @param {Object} parameters  - the parameter
+   * @return {Object} the result of visiting or null
+   * @private
+   */
   visitClassDeclaration(classDeclaration, parameters) {
     let component = null;
 
@@ -277,7 +277,7 @@ class ReactFormVisitor extends HTMLFormVisitor {
 
       component = (<div className={style} key={field.getName()+'_wrapper'}>
             { !parameters.skipLabel && <label>{Utilities.normalizeLabel(field.getName())}</label> }
-              {value.map((element, index) => {
+              {value ? value.map((element, index) => {
                 parameters.stack.push(index);
                 const arrayComponent = (
                   <div className={styles.arrayElement + ' grid'} key={field.getName()+'_wrapper['+index+']'}>
@@ -295,7 +295,7 @@ class ReactFormVisitor extends HTMLFormVisitor {
                 );
                 parameters.stack.pop();
                 return arrayComponent;
-              })}
+              }): null}
               <div className={styles.arrayElement + ' grid'}>
                 <div/>
                 <div>                          

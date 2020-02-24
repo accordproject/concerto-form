@@ -3,6 +3,7 @@
   "version": "0.83.0",
   "dependencies": {
     "@accordproject/concerto-ui-core": "0.83.0",
+    "@babel/runtime": "^7.8.4",
     "jsonpath": "1.0.1",
     "lodash.isequal": "^4.5.0"
   },
@@ -18,13 +19,13 @@
     "extends": "react-app"
   },
   "peerDependencies": {
-    "react": ">= 16.6.0",
-    "react-dom": ">= 16.6.0",
-    "styled-components": ">= 4"
+    "react": "^16.11.0",
+    "react-dom": "^16.11.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.7.0",
     "@babel/core": "^7.7.0",
+    "@babel/plugin-transform-runtime": "^7.8.3",
     "@babel/preset-env": "^7.7.1",
     "@babel/preset-react": "^7.7.0",
     "async-wait-until": "1.2.4",

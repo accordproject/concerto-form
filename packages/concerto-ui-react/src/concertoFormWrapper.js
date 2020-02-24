@@ -12,7 +12,7 @@
  * limitations under the License.
  */
 
-import React, { Component } from 'react';
+import React from 'react';
 import ErrorBoundary from './errorBoundary';
 import ConcertoForm from './concertoForm';
 import PropTypes from 'prop-types';
@@ -20,29 +20,17 @@ import PropTypes from 'prop-types';
 /**
  * This React component generates a React object for a bound model.
  */
-class ConcertoFormWrapper extends Component {
-  constructor(props) {
-    super(props);
-    this.form = React.createRef();
-  }
-
-  getForm(){
-    return this.form.current;
-  }
-
-  render() {
-    return (
-      <ErrorBoundary>
-        <ConcertoForm key={this.props.type} ref={this.form} {...this.props} />
-      </ErrorBoundary>
-    );
-  }
-}
+const ConcertoFormWrapper = (props) => <ErrorBoundary>
+    <ConcertoForm key={props.type} {...props} />
+  </ErrorBoundary>;
 
 ConcertoFormWrapper.propTypes = {
   models: PropTypes.arrayOf(PropTypes.string).isRequired,
   type: PropTypes.string,
-  json: PropTypes.object,
+  json: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.string,
+  ]),
   onModelChange: PropTypes.func.isRequired,
   onValueChange: PropTypes.func.isRequired,
   options: PropTypes.object,
