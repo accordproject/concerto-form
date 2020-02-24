@@ -46,35 +46,22 @@ class MyReactFormVisitor extends ReactFormVisitor {
 
       const handleChange = (e, { value })=>parameters.onFieldValueChange({ target: { value }}, key);
 
+      const type = parameters.modelManager.getType(field.getFullyQualifiedTypeName());
+      const enumDeclaration = this.findConcreteSubclass(type);
+
       const component = <div className={style} key={field.getName()}>
         <label>Status</label>
-        <Form.Field>
-          <Radio
-            label='Created'
-            name={`radioGroup_${field.getName()}`}
-            value='CREATED'
-            checked={value==='CREATED'}
-            onChange={handleChange}
-          />
-        </Form.Field>
-        <Form.Field>
-          <Radio
-            label='In Transit'
-            name={`radioGroup_${field.getName()}`}
-            value='IN_TRANSIT'
-            checked={value==='IN_TRANSIT'}
-            onChange={handleChange}
-          />
-        </Form.Field>
-        <Form.Field>
-          <Radio
-            label='Arrived'
-            name={`radioGroup_${field.getName()}`}
-            value='ARRIVED'
-            checked={value==='ARRIVED'}
-            onChange={handleChange}
-          />
-        </Form.Field>
+        {enumDeclaration.getProperties().map((property) =>
+          <Form.Field key={property.getName()}>
+            <Radio
+              label={property.getName()}
+              name={`radioGroup_${field.getName()}`}
+              value={property.getName()}
+              checked={value===property.getName()}
+              onChange={handleChange}
+            />
+          </Form.Field>
+        )}
       </div>;
 
       parameters.stack.pop();
