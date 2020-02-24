@@ -133,7 +133,7 @@ class ConcertoForm extends Component {
     } else if(typeof props.json === 'object'){
       shadowValue = ({ ...props.json });
     }
-    return { value: shadowValue, warning: null};
+    return { value: shadowValue };
   }
 
   removeElement(e, key, index){
