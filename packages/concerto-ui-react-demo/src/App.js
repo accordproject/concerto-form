@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import { ConcertoForm } from '@accordproject/concerto-ui-react';
 import { Grid, Segment, Form, Dropdown } from 'semantic-ui-react';
@@ -84,16 +84,13 @@ asset FragileGoodsClause extends AccordContract {
     ],
   };
 
-  const [json, setJson] = useState('{}');
-  const form = useRef();
+  const [json, setJson] = useState(null);
 
   // The Fully Qualified Name of the type that the form generates
   const [fqn, setFqn] = useState('');
 
   // The list of types in the model manager that can have a form generated
   const [types, setTypes] = useState([]);
-
-  const getForm = () => form.current.getForm();
 
   const safeStringify = (jsonObject) => {
     try {
@@ -106,17 +103,9 @@ asset FragileGoodsClause extends AccordContract {
     }
   };
 
-  const safeParse = (jsonStr) => {
-    try {
-      return JSON.parse(jsonStr);
-    } catch (err){
-      return null;
-    }
-  };
-
   const handleDeclarationSelectionChange = (e, { value }) => {
+    console.log('handleDeclarationSelectionChange', value);
     setFqn(value);
-    setJson(safeStringify(getForm().generateJSON(value)));
   };
 
   const handleJsonTextAreaChange = (value) => {
@@ -124,15 +113,18 @@ asset FragileGoodsClause extends AccordContract {
   };
 
   const onModelChange = ({ types, json }) => {
+    console.log('onModelChange', types, json);
     setTypes(types);
     setJson(safeStringify(json));
+
     // Set default value
-    if (fqn === '' && types.length > 0){
+    if (fqn === '' && types && types.length > 0){
       setFqn(types[0].fqn);
     }
   };
 
-  const onValueChange = (jsonObj ) => {
+  const onValueChange = (jsonObj) => {
+    console.log('onValueChange', jsonObj);
     setJson(safeStringify(jsonObj));
   };
 
@@ -184,12 +176,11 @@ asset FragileGoodsClause extends AccordContract {
             <Segment>
               <h2>Form</h2>
               <ConcertoForm
-                ref={form}
                 onModelChange={onModelChange}
                 onValueChange={onValueChange}
                 type={fqn}
                 models={[model]}
-                json={safeParse(json)}
+                json={json}
                 options={options}
               />
             </Segment>

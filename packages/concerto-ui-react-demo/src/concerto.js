@@ -4,7 +4,7 @@ export const CONCERTO_FORMAT = {
 
   keywords: [
     'abstract', 'enum', 'asset', 'participant', 'transaction',
-    'concept', 'true', 'false',
+    'concept', 'true', 'false', 'namespace', 'import', 'from'
   ],
 
   typeKeywords: [
@@ -12,7 +12,7 @@ export const CONCERTO_FORMAT = {
   ],
 
   operators: [
-    '=',
+    '='
   ],
 
   // we include these common regular expressions

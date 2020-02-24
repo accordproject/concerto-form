@@ -18,9 +18,8 @@
     "extends": "react-app"
   },
   "peerDependencies": {
-    "react": ">= 16.6.0",
-    "react-dom": ">= 16.6.0",
-    "styled-components": ">= 4"
+    "react": "^16.11.0",
+    "react-dom": "^16.11.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.7.0",
