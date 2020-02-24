@@ -64,12 +64,15 @@ class ReactFormVisitor extends HTMLFormVisitor {
     let change = e.target.value;
     switch(type) {
       case 'Boolean':
-        change = Boolean(e.target.value);
+        change = change === 'true';
+        break;
       case 'Double':
+        change = parseFloat(change);
+        break;
       case 'Long':
       case 'Integer':
-        change = Number(e.target.value);
-
+        change = parseInt(change);
+        break;
       }
       return parameters.onFieldValueChange({ ...e, target: { ...e.target, value: change }}, key)
   }
