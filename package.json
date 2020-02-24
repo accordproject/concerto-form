@@ -21,7 +21,6 @@
     "react-dom": "^16.11.0"
   },
   "scripts": {
-    "install": "npm install lerna && npm run bootstrap",
     "repoclean": "lerna clean",
     "bootstrap": "lerna bootstrap",
     "test": "lerna run test",
