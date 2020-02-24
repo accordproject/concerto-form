@@ -29,7 +29,7 @@
 
 .monetaryAmount {
     display: grid;
-    grid-template-columns: auto 60px;
+    grid-template-columns: auto 80px;
     grid-column-gap: 5px;
 }
 
