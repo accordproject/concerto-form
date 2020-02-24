@@ -104,7 +104,6 @@ asset FragileGoodsClause extends AccordContract {
   };
 
   const handleDeclarationSelectionChange = (e, { value }) => {
-    console.log('handleDeclarationSelectionChange', value);
     setFqn(value);
   };
 
@@ -113,7 +112,6 @@ asset FragileGoodsClause extends AccordContract {
   };
 
   const onModelChange = ({ types, json }) => {
-    console.log('onModelChange', types, json);
     setTypes(types);
     setJson(safeStringify(json));
 
@@ -124,7 +122,6 @@ asset FragileGoodsClause extends AccordContract {
   };
 
   const onValueChange = (jsonObj) => {
-    console.log('onValueChange', jsonObj);
     setJson(safeStringify(jsonObj));
   };
 
@@ -154,7 +151,7 @@ asset FragileGoodsClause extends AccordContract {
                 }}
                 language='json'
                 theme='vs-light'
-                value={safeStringify(json)}
+                value={json}
                 onChange={handleJsonTextAreaChange}
               />
             </Segment>

@@ -107,7 +107,7 @@ class ConcertoForm extends Component {
       if(!types.map(t => t.getFullyQualifiedName()).includes(this.props.type)){
         fqn = types[0].getFullyQualifiedName();
         json = this.generateJSON(fqn);
-        return { types, json, fqn };
+        return { types, json };
       }
       json = this.generateJSON(this.props.type);  
     }
