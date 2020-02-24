@@ -16,7 +16,8 @@ import React, { Component } from 'react';
 import ReactFormVisitor from './reactformvisitor';
 import './concertoForm.css';
 import PropTypes from 'prop-types';
-import jsonpath from 'jsonpath';
+import get from 'lodash.get';
+import set from 'lodash.set';
 import { FormGenerator } from '@accordproject/concerto-ui-core';
 import { Form, Dimmer, Loader, Message } from 'semantic-ui-react';
 import isEqual from 'lodash.isequal';
@@ -137,14 +138,14 @@ class ConcertoForm extends Component {
   }
 
   removeElement(e, key, index){
-    const array = jsonpath.value(this.state.value, key);
+    const array = get(this.state.value, key);
     array.splice(index, 1);
     this.props.onValueChange(this.state.value);
   }
 
   addElement(e, key, value){
-    const array = jsonpath.value(this.state.value, key);
-    jsonpath.value(this.state.value,`${key}.${array.length}`, value);
+    const array = get(this.state.value, key);
+    set(this.state.value,`${key}.${array.length}`, value);
     this.props.onValueChange(this.state.value);
   }
 
@@ -172,7 +173,7 @@ class ConcertoForm extends Component {
 
   onFieldValueChange(e, key) {
     const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
-    jsonpath.value(this.state.value, key, value);
+    set(this.state.value, key, value);
     this.props.onValueChange(this.state.value);
   }
 

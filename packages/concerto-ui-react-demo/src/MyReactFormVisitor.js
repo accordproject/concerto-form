@@ -14,7 +14,8 @@
 
 import React from 'react';
 import { Form, Radio } from 'semantic-ui-react';
-import jsonpath from 'jsonpath';
+import get from 'lodash.get';
+import toPath from 'lodash.topath';
 import { ReactFormVisitor } from '@accordproject/concerto-ui-react';
 
 /**
@@ -39,11 +40,11 @@ class MyReactFormVisitor extends ReactFormVisitor {
     if(field.getFullyQualifiedTypeName() === 'io.clause.demo.fragileGoods.ShipmentStatus'){
       parameters.stack.push(field.getName());
 
-      const key = jsonpath.stringify(parameters.stack);
-      const value = jsonpath.value(parameters.json,key);
+      const key = toPath(parameters.stack);
+      const value = get(parameters.json,key);
       const style = parameters.customClasses.field;
 
-      const handleChange = (e, { value })=>parameters.onFieldValueChange({ target: { value }}, key)
+      const handleChange = (e, { value })=>parameters.onFieldValueChange({ target: { value }}, key);
 
       const component = <div className={style} key={field.getName()}>
         <label>Status</label>
