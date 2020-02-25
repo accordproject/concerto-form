@@ -1,6 +1,6 @@
 {
   "name": "@accordproject/concerto-ui-react-demo",
-  "version": "0.83.0",
+  "version": "0.84.0",
   "description": "Form generator for Accord Project Concerto modeling language type",
   "engines": {
     "node": ">=8",
@@ -10,7 +10,7 @@
     "Chrome 78"
   ],
   "dependencies": {
-    "@accordproject/concerto-ui-react": "0.83.0",
+    "@accordproject/concerto-ui-react": "0.84.0",
     "lodash.get": "^4.4.2",
     "lodash.topath": "^4.5.2",
     "monaco-editor": "^0.20.0",
@@ -73,12 +73,10 @@
     "mini-css-extract-plugin": "^0.7.0",
     "style-loader": "^0.23.1",
     "sass-loader": "^7.1.0",
-
     "url-loader": "^2.2.0",
     "webpack": "^4.41.2",
     "webpack-cli": "^3.3.10",
     "webpack-dev-server": "^3.9.0"
-    
   },
   "license-check-and-add-config": {
     "folder": ".",
