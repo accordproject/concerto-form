@@ -14,7 +14,7 @@
 
 import React from 'react';
 import get from 'lodash.get';
-import moment-mini from 'moment-mini';
+import moment from 'moment-mini';
 import toPath from 'lodash.topath';
 import { Utilities, HTMLFormVisitor } from '@accordproject/concerto-ui-core';
 
@@ -265,7 +265,7 @@ class ReactFormVisitor extends HTMLFormVisitor {
             return (<div className={style} key={field.getName()+'_wrapper'}>
                         <input type={this.toFieldType(field.getType())}
                             className={styles.input}
-                            value={moment-mini(value).utc().format("YYYY-MM-DDThh:mm:ss")}
+                            value={moment(value).utc().format("YYYY-MM-DDThh:mm:ss")}
                             onChange={(e)=>parameters.onFieldValueChange(e, key)}
                             key={key} />
                     </div>);
@@ -350,7 +350,7 @@ class ReactFormVisitor extends HTMLFormVisitor {
                   { !parameters.skipLabel && <label>{Utilities.normalizeLabel(field.getName())}</label> }
                   <input type={this.toFieldType(field.getType())}
                       className={styles.input}
-                      value={moment-mini(value).utc().format("YYYY-MM-DDThh:mm:ss")}
+                      value={moment(value).utc().format("YYYY-MM-DDThh:mm:ss")}
                       onChange={(e)=>parameters.onFieldValueChange(e, key)}
                       key={key} />
               </div>);
