@@ -7,7 +7,8 @@
     "lodash.get": "^4.4.2",
     "lodash.isequal": "^4.5.0",
     "lodash.set": "^4.3.2",
-    "lodash.topath": "^4.5.2"
+    "lodash.topath": "^4.5.2",
+    "moment-mini": "^2.22.1"
   },
   "scripts": {
     "build": "rm -rf dist && NODE_ENV=production babel src --out-dir dist --copy-files --ignore '**/*.spec.js,**/*.test.js,samples,__snapshots__,**/*.stories.js'",
