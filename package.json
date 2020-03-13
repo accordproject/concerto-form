@@ -29,6 +29,8 @@
   ],
   "author": "Matt Roberts",
   "license": "Apache-2.0",
-  "dependencies": {},
+  "dependencies": {
+    "moment": "^2.24.0"
+  },
   "version": "0.84.0"
 }

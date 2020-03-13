@@ -14,6 +14,7 @@
 
 import React from 'react';
 import get from 'lodash.get';
+import moment from 'moment';
 import toPath from 'lodash.topath';
 import { Utilities, HTMLFormVisitor } from '@accordproject/concerto-ui-core';
 
@@ -264,7 +265,7 @@ class ReactFormVisitor extends HTMLFormVisitor {
             return (<div className={style} key={field.getName()+'_wrapper'}>
                         <input type={this.toFieldType(field.getType())}
                             className={styles.input}
-                            value={new Date(value).toDatetimeLocal()}
+                            value={moment(value).format("YYYY-MM-DDThh:mm:ss")}
                             onChange={(e)=>parameters.onFieldValueChange(e, key)}
                             key={key} />
                     </div>);
@@ -349,7 +350,7 @@ class ReactFormVisitor extends HTMLFormVisitor {
                   { !parameters.skipLabel && <label>{Utilities.normalizeLabel(field.getName())}</label> }
                   <input type={this.toFieldType(field.getType())}
                       className={styles.input}
-                      value={new Date(value).toDatetimeLocal()}
+                      value={moment(value).format("YYYY-MM-DDThh:mm:ss")}
                       onChange={(e)=>parameters.onFieldValueChange(e, key)}
                       key={key} />
               </div>);
@@ -525,22 +526,6 @@ class ReactFormVisitor extends HTMLFormVisitor {
   }
 }
 
-Date.prototype.toDatetimeLocal =
-  function toDatetimeLocal() {
-    let
-      date = this,
-      ten = function (i) {
-        return (i < 10 ? '0' : '') + i;
-      },
-      YYYY = date.getFullYear(),
-      MM = ten(date.getMonth() + 1),
-      DD = ten(date.getDate()),
-      HH = ten(date.getHours()),
-      II = ten(date.getMinutes()),
-      SS = ten(date.getSeconds())
-      ;
-    return YYYY + '-' + MM + '-' + DD + 'T' +
-             HH + ':' + II + ':' + SS;
-  };
+
 
 export default ReactFormVisitor;
