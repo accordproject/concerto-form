@@ -96,8 +96,6 @@ asset FragileGoodsClause extends AccordContract {
   // The list of types in the model manager that can have a form generated
   const [types, setTypes] = useState([]);
 
-
-
   const safeStringify = (jsonObject) => {
     try {
       if (typeof jsonObject === 'object') {
@@ -131,9 +129,9 @@ asset FragileGoodsClause extends AccordContract {
     setJson(safeStringify(jsonObj));
   };
 
+  //For changing mode
   var [_theme_,setTheme]=useState(true);
   const changeMode = (props) => {
-    console.log(props.target.classList.toggle('active'));
     setTheme(_theme_=!_theme_);
     if(props.target.classList.contains('active')){
        document.body.style.background = "rgb(30, 30, 30)";
