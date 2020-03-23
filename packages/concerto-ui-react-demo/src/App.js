@@ -16,7 +16,7 @@
 import React, { useState } from 'react';
 import './App.css';
 import { ConcertoForm } from '@accordproject/concerto-ui-react';
-import { Grid, Segment, Form, Dropdown } from 'semantic-ui-react';
+import { Grid, Segment, Form, Dropdown, Checkbox } from 'semantic-ui-react';
 import ConcertoEditor from './ConcertoEditor';
 import MonacoEditor from 'react-monaco-editor';
 import MyReactFormVisitor from './MyReactFormVisitor';
@@ -96,6 +96,8 @@ asset FragileGoodsClause extends AccordContract {
   // The list of types in the model manager that can have a form generated
   const [types, setTypes] = useState([]);
 
+
+
   const safeStringify = (jsonObject) => {
     try {
       if (typeof jsonObject === 'object') {
@@ -129,23 +131,41 @@ asset FragileGoodsClause extends AccordContract {
     setJson(safeStringify(jsonObj));
   };
 
+  var [_theme_,setTheme]=useState(true);
+  const changeMode = (props) => {
+    console.log(props.target.classList.toggle('active'));
+    setTheme(_theme_=!_theme_);
+    if(props.target.classList.contains('active')){
+       document.body.style.background = "rgb(30, 30, 30)";
+       document.body.style.color="white";
+    }
+    else{
+       document.body.style.background = "white";
+       document.body.style.color="rgb(30, 30, 30)";
+    }  
+  }
+
+
   return (
     <div className="App">
       <h2>Concerto Form Generator - Demo Client</h2>
+      <Segment compact inverted color="grey" style={{float: "right"}}>
+        <Checkbox toggle onChange={ changeMode }  />
+      </Segment>
       <p>This tool demonstrates the <em>concerto-ui</em> library to generate a form from an Accord Project Concerto model.</p>
       <p>This demo produces a ReactJS form that is styled with Semantic UI.</p>
+
       <Grid columns={2} divided style={{ height: '100%' }} verticalAlign='top' >
         <Grid.Row stretched>
           <Grid.Column>
-            <Segment>
+          <Segment inverted color={ _theme_ ? 'grey' : 'black' }>
               <label>Model</label>
               <ConcertoEditor
                 handleSubmit={setModel}
                 textValue={model}
               />
             </Segment>
-            <Segment>
-              <label>JSON</label>
+            <Segment inverted color={ _theme_ ? 'grey' : 'black' }>
               <MonacoEditor
                 height='400'
                 options={{
@@ -154,7 +174,7 @@ asset FragileGoodsClause extends AccordContract {
                   },
                 }}
                 language='json'
-                theme='vs-light'
+                theme={ _theme_ ? 'vs-light' : 'vs-dark' }
                 value={json}
                 onChange={handleJsonTextAreaChange}
               />
@@ -174,7 +194,7 @@ asset FragileGoodsClause extends AccordContract {
                   return { key: fqn, text: fqn, value: fqn };
                 })}/>
             </Form.Field>
-            <Segment>
+            <Segment inverted color='grey'>
               <h2>Form</h2>
               <ConcertoForm
                 onModelChange={onModelChange}
