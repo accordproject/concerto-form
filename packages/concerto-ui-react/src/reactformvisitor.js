@@ -266,7 +266,7 @@ class ReactFormVisitor extends HTMLFormVisitor {
             return (<div className={style} key={field.getName()+'_wrapper'}>
                         <input type={this.toFieldType(field.getType())}
                             className={styles.input}
-                            disabled={parameters.readOnly}
+                            readOnly={parameters.readOnly}
                             value={new Date(value).toDatetimeLocal()}
                             onChange={(e)=>parameters.onFieldValueChange(e, key)}
                             key={key} />
@@ -275,7 +275,7 @@ class ReactFormVisitor extends HTMLFormVisitor {
             return (<div className={style} key={field.getName()+'_wrapper'}>
                         <input type={this.toFieldType(field.getType())}
                             className={styles.input}
-                            disabled={parameters.readOnly}
+                            readOnly={parameters.readOnly}
                             value={value}
                             onChange={e => this.castChangeToPrimitiveType(e, key, field.getType(), parameters)}
                             key={key} />
@@ -356,7 +356,7 @@ class ReactFormVisitor extends HTMLFormVisitor {
                   { !parameters.skipLabel && <label>{Utilities.normalizeLabel(field.getName())}</label> }
                   <input type={this.toFieldType(field.getType())}
                       className={styles.input}
-                      disabled={parameters.readOnly}
+                      readOnly={parameters.readOnly}
                       value={new Date(value).toDatetimeLocal()}
                       onChange={(e)=>parameters.onFieldValueChange(e, key)}
                       key={key} />
@@ -366,7 +366,7 @@ class ReactFormVisitor extends HTMLFormVisitor {
                   { !parameters.skipLabel && <label>{Utilities.normalizeLabel(field.getName())}</label> }
                   <input type={this.toFieldType(field.getType())}
                       className={styles.input}
-                      disabled={parameters.readOnly}
+                      readOnly={parameters.readOnly}
                       value={value}
                       onChange={e => this.castChangeToPrimitiveType(e, key, field.getType(), parameters)}
                       key={key} />
@@ -430,7 +430,7 @@ class ReactFormVisitor extends HTMLFormVisitor {
         let value = get(parameters.json,key);
         return (<input type='text'
           className={styles.input}
-          disabled={parameters.readOnly}
+          readOnly={parameters.readOnly}
           value={value}
           onChange={(e)=>parameters.onFieldValueChange(e, key)}
           key={key} />);
@@ -475,7 +475,7 @@ class ReactFormVisitor extends HTMLFormVisitor {
       <input
           type='text'
           className={styles.input}
-          disabled={parameters.readOnly}
+          readOnly={parameters.readOnly}
           value={value}
           onChange={(e)=>parameters.onFieldValueChange(e, key)}
           key={key}
