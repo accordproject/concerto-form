@@ -205,6 +205,7 @@ class ReactFormVisitor extends HTMLFormVisitor {
     const id = enumDeclaration.getName().toLowerCase();
     component = (<div className={styles.field} key={id}>
           <select className={styles.enumeration}
+            disabled={parameters.readOnly}
             value={value}
             onChange={(e)=>parameters.onFieldValueChange(e, key)}
             key={key} >
@@ -253,6 +254,7 @@ class ReactFormVisitor extends HTMLFormVisitor {
             return(<div className={styles} key={field.getName()+'_wrapper'}>
                         <div className={styles.boolean}>
                             <input type="checkbox"
+                            disabled={parameters.readOnly}
                             checked={value}
                             value={value}
                             onChange={(e)=>parameters.onFieldValueChange(e, key)}
@@ -264,6 +266,7 @@ class ReactFormVisitor extends HTMLFormVisitor {
             return (<div className={style} key={field.getName()+'_wrapper'}>
                         <input type={this.toFieldType(field.getType())}
                             className={styles.input}
+                            readOnly={parameters.readOnly}
                             value={new Date(value).toDatetimeLocal()}
                             onChange={(e)=>parameters.onFieldValueChange(e, key)}
                             key={key} />
@@ -272,6 +275,7 @@ class ReactFormVisitor extends HTMLFormVisitor {
             return (<div className={style} key={field.getName()+'_wrapper'}>
                         <input type={this.toFieldType(field.getType())}
                             className={styles.input}
+                            readOnly={parameters.readOnly}
                             value={value}
                             onChange={e => this.castChangeToPrimitiveType(e, key, field.getType(), parameters)}
                             key={key} />
@@ -310,6 +314,7 @@ class ReactFormVisitor extends HTMLFormVisitor {
                       </div>
                       <div>                          
                         <button
+                          disabled={parameters.readOnly}
                           className={styles.button + ' negative icon'}
                           onClick={(e)=>{parameters.removeElement(e, key, index);e.preventDefault();}}>
                             <i className="times icon"></i>
@@ -324,6 +329,7 @@ class ReactFormVisitor extends HTMLFormVisitor {
                 <div/>
                 <div>                          
                   <button
+                    disabled={parameters.readOnly}
                     className={styles.button + ' positive icon'}
                     onClick={(e)=>{parameters.addElement(e, key, defaultValue);e.preventDefault();}}>
                       <i className="plus icon"></i>
@@ -337,6 +343,7 @@ class ReactFormVisitor extends HTMLFormVisitor {
                   { !parameters.skipLabel && <label>{Utilities.normalizeLabel(field.getName())}</label> }
                   <div className={styles.boolean}>
                       <input type="checkbox"
+                      disabled={parameters.readOnly}
                       checked={value}
                       value={value}
                       onChange={(e)=>parameters.onFieldValueChange(e, key)}
@@ -349,6 +356,7 @@ class ReactFormVisitor extends HTMLFormVisitor {
                   { !parameters.skipLabel && <label>{Utilities.normalizeLabel(field.getName())}</label> }
                   <input type={this.toFieldType(field.getType())}
                       className={styles.input}
+                      readOnly={parameters.readOnly}
                       value={new Date(value).toDatetimeLocal()}
                       onChange={(e)=>parameters.onFieldValueChange(e, key)}
                       key={key} />
@@ -358,6 +366,7 @@ class ReactFormVisitor extends HTMLFormVisitor {
                   { !parameters.skipLabel && <label>{Utilities.normalizeLabel(field.getName())}</label> }
                   <input type={this.toFieldType(field.getType())}
                       className={styles.input}
+                      readOnly={parameters.readOnly}
                       value={value}
                       onChange={e => this.castChangeToPrimitiveType(e, key, field.getType(), parameters)}
                       key={key} />
@@ -421,6 +430,7 @@ class ReactFormVisitor extends HTMLFormVisitor {
         let value = get(parameters.json,key);
         return (<input type='text'
           className={styles.input}
+          readOnly={parameters.readOnly}
           value={value}
           onChange={(e)=>parameters.onFieldValueChange(e, key)}
           key={key} />);
@@ -436,6 +446,7 @@ class ReactFormVisitor extends HTMLFormVisitor {
                 </div>
                 <div>                          
                   <button
+                   disabled={parameters.readOnly}
                     className={styles.button + ' negative icon'}
                     onClick={(e)=>{parameters.removeElement(e, key, index);e.preventDefault();}}>
                       <i className="times icon"></i>
@@ -450,6 +461,7 @@ class ReactFormVisitor extends HTMLFormVisitor {
           <div/>
           <div>                          
             <button
+              disabled={parameters.readOnly}
               className={styles.button + ' positive icon'}
               onClick={(e)=>{parameters.addElement(e, key, 'resource1');e.preventDefault();}}>
                 <i className="plus icon"></i>
@@ -463,6 +475,7 @@ class ReactFormVisitor extends HTMLFormVisitor {
       <input
           type='text'
           className={styles.input}
+          readOnly={parameters.readOnly}
           value={value}
           onChange={(e)=>parameters.onFieldValueChange(e, key)}
           key={key}

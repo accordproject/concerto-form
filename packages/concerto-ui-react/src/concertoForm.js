@@ -44,6 +44,7 @@ class ConcertoForm extends Component {
       includeOptionalFields: true,
       includeSampleData: 'sample',
       disabled: props.readOnly,
+      readOnly:false,
       visitor: new ReactFormVisitor(),
       // CSS Styling, specify classnames
       customClasses : {
