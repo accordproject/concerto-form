@@ -134,7 +134,7 @@ class ConcertoForm extends Component {
 
   addElement(e, key, value){
     const array = get(this.state.value, key);
-    set(this.state.value, [...key, array.length], value);
+    this.setState(set({ ...this.state.value}, [...key, array.length], value));
     this.props.onValueChange(this.state.value);
   }
 
@@ -162,7 +162,7 @@ class ConcertoForm extends Component {
 
   onFieldValueChange(e, key) {
     const value = e.type === 'checkbox' ? e.checked : (e.value || e.target.value);
-    set(this.state.value, key, value);
+    this.setState(set({ ...this.state.value}, key, value));
     this.props.onValueChange(this.state.value);
   }
 
