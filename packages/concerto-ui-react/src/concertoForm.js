@@ -146,7 +146,7 @@ class ConcertoForm extends Component {
 
   addElement(e, key, value){
     const array = get(this.state.value, key);
-    set(this.state.value,`${key}.${array.length}`, value);
+    set(this.state.value, [...key, array.length], value);
     this.props.onValueChange(this.state.value);
   }
 
