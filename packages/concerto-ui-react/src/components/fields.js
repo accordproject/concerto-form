@@ -27,7 +27,7 @@ export const ConcertoCheckbox = ({
       toggle
       readOnly={readOnly}
       checked={value}
-      onChange={(e, data) => onFieldValueChange(data, key)}
+      onChange={(e, data) => onFieldValueChange(data, id)}
       key={id} />
   </Form.Field >;
 
