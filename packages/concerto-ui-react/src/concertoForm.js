@@ -46,18 +46,6 @@ class ConcertoForm extends Component {
       disabled: props.readOnly,
       readOnly:false,
       visitor: new ReactFormVisitor(),
-      // CSS Styling, specify classnames
-      customClasses : {
-        field: 'ui field',
-        declaration: 'ui field',
-        declarationHeader: 'ui dividing header',
-        enumeration: 'ui fluid dropdown',
-        required: 'ui required',
-        boolean: 'ui toggle checkbox',
-        button: 'ui fluid button basic fullHeight',
-        arrayElement: 'arrayElement',
-        classElement: 'classElement'
-      },
       onFieldValueChange: (e, key) => {
         this.onFieldValueChange(e, key);
       },
@@ -173,7 +161,7 @@ class ConcertoForm extends Component {
   }
 
   onFieldValueChange(e, key) {
-    const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
+    const value = e.type === 'checkbox' ? e.checked : (e.value || e.target.value);
     set(this.state.value, key, value);
     this.props.onValueChange(this.state.value);
   }
