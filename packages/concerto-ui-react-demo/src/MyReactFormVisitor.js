@@ -16,7 +16,7 @@ import React from 'react';
 import { Form, Radio } from 'semantic-ui-react';
 import get from 'lodash.get';
 import toPath from 'lodash.topath';
-import { ReactFormVisitor } from '@accordproject/concerto-ui-react';
+import { ReactFormVisitor, Utilities } from '@accordproject/concerto-ui-react';
 
 /**
  * Convert the contents of a ModelManager to TypeScript code.
@@ -42,16 +42,15 @@ class MyReactFormVisitor extends ReactFormVisitor {
 
       const key = toPath(parameters.stack);
       const value = get(parameters.json,key);
-      const style = parameters.customClasses.field;
 
       const handleChange = (e, { value })=>parameters.onFieldValueChange({ target: { value }}, key);
 
       const type = parameters.modelManager.getType(field.getFullyQualifiedTypeName());
-      const enumDeclaration = this.findConcreteSubclass(type);
+      const enumDeclaration = Utilities.findConcreteSubclass(type);
 
-      const component = <div className={style} key={field.getName()}>
+      const component = <Form.Field key={field.getName()}>
         <label>Status</label>
-        {enumDeclaration.getProperties().map((property) =>
+        {enumDeclaration.getProperties().map((property, index) =>
           <Form.Field key={property.getName()}>
             <Radio
               label={property.getName()}
@@ -62,7 +61,7 @@ class MyReactFormVisitor extends ReactFormVisitor {
             />
           </Form.Field>
         )}
-      </div>;
+      </Form.Field>;
 
       parameters.stack.pop();
       return component;
