@@ -1,3 +1,7 @@
+# ❗---❗---❗---❗DEPRECATED❗---❗---❗---❗
+
+This repository has been moved to https://github.com/accordproject/web-components
+
 # Concerto UI Library
 
 This library providers web UI components for models written in the [Concerto Modeling Language](https://github.com/accordproject/concerto).
